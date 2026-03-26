@@ -3,14 +3,18 @@ Description=3D Print Quote Web Service
 After=network.target nginx.service
 
 [Service]
-Type=forking
+Type=simple
 User=admin
 WorkingDirectory=/home/admin/.openclaw/workspace/skills/3d-print-quote
-ExecStart=/home/admin/.openclaw/workspace/skills/3d-print-quote/service.sh start
-ExecStop=/home/admin/.openclaw/workspace/skills/3d-print-quote/service.sh stop
-ExecReload=/home/admin/.openclaw/workspace/skills/3d-print-quote/service.sh restart
+Environment="PATH=/usr/bin:/usr/local/bin"
+# 启动前清理旧进程
+ExecStartPre=-/bin/bash -c 'fuser -k 5000/tcp 2>/dev/null || true'
+ExecStart=/usr/bin/python3 /home/admin/.openclaw/workspace/skills/3d-print-quote/web_server.py
 Restart=on-failure
 RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=3d-quote
 
 [Install]
 WantedBy=multi-user.target
