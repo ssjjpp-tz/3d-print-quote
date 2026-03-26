@@ -1,0 +1,26 @@
+name: 🚀 Deploy to Aliyun VPS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Aliyun VPS
+        uses: easingthemes/ssh-deploy@v4
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.ALIYUN_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.ALIYUN_HOST }}
+          REMOTE_USER: ${{ secrets.ALIYUN_USER }}
+          SOURCE: "."
+          TARGET: "/home/admin/apps/3d-print-quote"
+          SCRIPT_AFTER: |
+            cd /home/admin/apps/3d-print-quote
+            pip3 install -r requirements.txt
+            pkill -f "python3 web_server.py" || true
+            nohup python3 web_server.py > app.log 2>&1 &

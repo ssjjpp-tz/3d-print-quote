@@ -1,11 +1,12 @@
 # 3D Print Quote - 依赖
 # 核心功能无需外部依赖，纯 Python 实现
 
+# Web 服务（必需）
+flask>=2.0.0
+werkzeug>=2.0.0
+
 # 可选：加速计算
 # numpy>=1.20.0
-
-# Web 服务（可选）
-# flask>=2.0.0
 
 # PDF 生成（可选）
 # reportlab>=3.6.0
