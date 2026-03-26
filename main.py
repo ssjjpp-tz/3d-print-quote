@@ -91,12 +91,24 @@ def main():
         print(f"❌ 文件不存在：{args.file}")
         sys.exit(1)
     
-    # 验证材料
-    material = args.material.upper()
-    if material not in config['materials']:
-        print(f"❌ 未知材料：{material}")
-        print(f"可用材料：{', '.join(config['materials'].keys())}")
-        sys.exit(1)
+    # 验证材料（支持中英文别名）
+    material_input = args.material.strip().lower()
+    
+    # 先查别名表，再查材料名
+    aliases = config.get('material_aliases', {})
+    if material_input in aliases:
+        material = aliases[material_input]
+    else:
+        # 直接匹配材料名（不区分大小写）
+        material_map = {k.lower(): k for k in config['materials'].keys()}
+        if material_input in material_map:
+            material = material_map[material_input]
+        else:
+            print(f"❌ 未知材料：{args.material}")
+            print(f"可用材料（中英文都支持）:")
+            for k, v in config['materials'].items():
+                print(f"   {k} / {v.get('name_zh', v['name'])} - {v['desc']}")
+            sys.exit(1)
     
     # 分析模型
     try:
