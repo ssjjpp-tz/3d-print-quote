@@ -678,14 +678,19 @@ def api_materials():
     return jsonify(get_materials_list(config))
 
 if __name__ == '__main__':
+    import os
+    
+    # 从环境变量获取端口（Railway/Render 等平台使用）
+    port = int(os.environ.get('PORT', 5000))
+    
     print("=" * 60)
     print("🖨️  3D 打印自动报价服务")
     print("=" * 60)
     print(f"📁 上传目录：{UPLOAD_FOLDER}")
-    print(f"🌐 访问地址：http://localhost:5000")
+    print(f"🌐 访问地址：http://0.0.0.0:{port}")
     print(f"📎 支持格式：STL, 3MF")
     print(f"📏 最大文件：50 MB")
     print("=" * 60)
     
     # 启动服务
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)
