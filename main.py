@@ -18,6 +18,7 @@ sys.path.insert(0, SKILL_DIR)
 
 from stl_parser import STLModel
 from threemf_parser import ThreeMFModel
+from mesh_parser import MeshModel, is_supported_format, SUPPORTED_FORMATS
 from quote_engine import calculate_quote, format_quote_report, get_materials_list, load_config
 
 
@@ -25,13 +26,21 @@ def analyze_model(filepath):
     """分析模型文件（自动检测格式）"""
     ext = os.path.splitext(filepath)[1].lower()
     
+    # STL 格式 - 使用专用解析器（更准确）
     if ext == '.stl':
         model = STLModel()
         model.load(filepath)
         return model.get_stats()
     
+    # 3MF 格式 - 使用专用解析器
     elif ext == '.3mf':
         model = ThreeMFModel()
+        model.load(filepath)
+        return model.get_stats()
+    
+    # 其他格式 - 使用 trimesh 通用解析器
+    elif is_supported_format(filepath):
+        model = MeshModel()
         model.load(filepath)
         return model.get_stats()
     
@@ -84,7 +93,8 @@ def main():
     # 检查文件
     if not args.file:
         parser.print_help()
-        print("\n❌ 请指定 STL 或 3MF 文件")
+        print("\n❌ 请指定 3D 模型文件")
+        print(f"   支持格式：STL, 3MF, OBJ, PLY, GLTF, GLB, FBX, DAE")
         sys.exit(1)
     
     if not os.path.exists(args.file):

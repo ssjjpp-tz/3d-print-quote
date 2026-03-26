@@ -1,14 +1,17 @@
 # 3D Print Quote - 3D 打印自动报价技能
 
-自动解析 STL/3MF 模型文件，计算体积、重量、打印时间，生成专业报价。
+自动解析 3D 模型文件，计算体积、重量、打印时间，生成专业报价。
 
 ## 功能
 
-- **STL 解析** - Binary 和 ASCII 格式自动检测
-- **3MF 解析** - 支持 ZIP 压缩包结构
+- **多格式支持** - STL, 3MF, OBJ, PLY, GLTF, GLB, FBX, DAE
+- **STL 解析** - Binary 和 ASCII 格式自动检测（专用解析器）
+- **3MF 解析** - 支持 ZIP 压缩包结构（专用解析器）
+- **通用解析** - trimesh 引擎支持 10+ 种 3D 格式
 - **几何分析** - 体积、表面积、边界盒
 - **成本计算** - 材料 + 机器 + 人工 + 利润
-- **多材料支持** - PLA/ABS/PETG/尼龙/TPU/树脂
+- **多材料支持** - 塑料 9 种 + 金属 6 种
+- **中英文材料名** - 支持中英文混输
 - **批量报价** - 支持多个文件同时分析
 - **PDF 报价单** - 生成专业报价文档
 
@@ -25,11 +28,12 @@ pip install numpy  # 可选，加速计算
 ### 命令行
 
 ```bash
-# 分析单个 STL 文件
+# 分析单个文件（支持 STL/OBJ/PLY/GLTF 等）
 python ~/.openclaw/workspace/skills/3d-print-quote/main.py model.stl
 
-# 指定材料
+# 指定材料（支持中英文）
 python ~/.openclaw/workspace/skills/3d-print-quote/main.py model.stl ABS
+python ~/.openclaw/workspace/skills/3d-print-quote/main.py model.obj 铝合金
 
 # 分析 3MF 文件
 python ~/.openclaw/workspace/skills/3d-print-quote/main.py model.3mf
@@ -37,8 +41,8 @@ python ~/.openclaw/workspace/skills/3d-print-quote/main.py model.3mf
 # 批量分析
 python ~/.openclaw/workspace/skills/3d-print-quote/main.py *.stl
 
-# 生成 PDF 报价单
-python ~/.openclaw/workspace/skills/3d-print-quote/main.py model.stl --pdf quote.pdf
+# 列出所有材料
+python ~/.openclaw/workspace/skills/3d-print-quote/main.py --materials
 ```
 
 ### Python API
@@ -98,6 +102,30 @@ print(f"建议售价：¥{quote['price']:.2f}")
 | 钛合金 | 4.43 | 3.50 | TC4 高强度，生物相容 |
 | 紫铜 | 8.96 | 0.90 | 导电导热好 |
 | 黄铜 | 8.50 | 0.65 | 易加工，装饰用 |
+
+## 支持的文件格式
+
+| 格式 | 扩展名 | 来源软件 | 解析器 |
+|------|--------|---------|--------|
+| **STL** | .stl | 所有 3D 软件 | 专用解析器 |
+| **3MF** | .3mf | Windows 3D Builder | 专用解析器 |
+| **OBJ** | .obj | Blender, Maya | trimesh |
+| **PLY** | .ply | 3D 扫描数据 | trimesh |
+| **GLTF/GLB** | .gltf, .glb | Web 3D | trimesh |
+| **FBX** | .fbx | Autodesk | trimesh |
+| **DAE** | .dae | Collada | trimesh |
+| **3DS** | .3ds | 3D Studio | trimesh |
+
+### ⚠️ 暂不支持的格式
+
+以下 CAD 格式需要先导出为 STL：
+- STEP/STP (SolidWorks, CATIA)
+- IGES/IGS (老 CAD 系统)
+- SLDPRT (SolidWorks 零件)
+- Fusion 360 (.f3d)
+- CATPart (CATIA)
+- 3DM (Rhino)
+- BLEND (Blender 源文件)
 
 ## 配置
 
