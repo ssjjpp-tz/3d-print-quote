@@ -1,0 +1,16 @@
+[Unit]
+Description=3D Print Quote Web Service
+After=network.target nginx.service
+
+[Service]
+Type=forking
+User=admin
+WorkingDirectory=/home/admin/.openclaw/workspace/skills/3d-print-quote
+ExecStart=/home/admin/.openclaw/workspace/skills/3d-print-quote/service.sh start
+ExecStop=/home/admin/.openclaw/workspace/skills/3d-print-quote/service.sh stop
+ExecReload=/home/admin/.openclaw/workspace/skills/3d-print-quote/service.sh restart
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

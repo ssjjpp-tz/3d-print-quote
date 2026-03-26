@@ -1,0 +1,35 @@
+{
+  "materials": {
+    "PLA": {"density": 1.24, "price_per_g": 0.08, "name": "PLA", "desc": "常用环保材料"},
+    "ABS": {"density": 1.04, "price_per_g": 0.10, "name": "ABS", "desc": "高强度"},
+    "PETG": {"density": 1.27, "price_per_g": 0.12, "name": "PETG", "desc": "耐候性好"},
+    "Nylon": {"density": 1.14, "price_per_g": 0.25, "name": "尼龙", "desc": "耐磨"},
+    "TPU": {"density": 1.21, "price_per_g": 0.18, "name": "TPU", "desc": "柔性材料"},
+    "Resin": {"density": 1.10, "price_per_g": 0.15, "name": "树脂", "desc": "光固化"},
+    "PC": {"density": 1.20, "price_per_g": 0.20, "name": "PC", "desc": "聚碳酸酯，高透明"},
+    "ASA": {"density": 1.07, "price_per_g": 0.22, "name": "ASA", "desc": "耐候，抗 UV"},
+    "PEEK": {"density": 1.32, "price_per_g": 2.80, "name": "PEEK", "desc": "特种工程塑料，耐高温"},
+    "Aluminum": {"density": 2.70, "price_per_g": 0.35, "name": "铝合金", "desc": "轻质金属，常用 6061/7075"},
+    "StainlessSteel": {"density": 7.90, "price_per_g": 0.80, "name": "不锈钢", "desc": "304/316 耐腐蚀"},
+    "Steel": {"density": 7.85, "price_per_g": 0.45, "name": "碳钢", "desc": "Q235/45 钢，强度高"},
+    "Titanium": {"density": 4.43, "price_per_g": 3.50, "name": "钛合金", "desc": "TC4 高强度，生物相容"},
+    "Copper": {"density": 8.96, "price_per_g": 0.90, "name": "紫铜", "desc": "导电导热好"},
+    "Brass": {"density": 8.50, "price_per_g": 0.65, "name": "黄铜", "desc": "易加工，装饰用"}
+  },
+  "machine_cost_per_hour": 5.0,
+  "labor_cost_base": 10.0,
+  "default_profit_margin": 2.0,
+  "default_layer_height": 0.2,
+  "default_infill": 20,
+  "min_price": 15.0,
+  "metal_processing": {
+    "cnc_setup_fee": 50.0,
+    "cnc_hourly_rate": 80.0,
+    "surface_treatment": {
+      "anodizing": 0.5,
+      "plating": 1.0,
+      "painting": 0.3,
+      "polishing": 0.8
+    }
+  }
+}
